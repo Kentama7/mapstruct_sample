@@ -6,7 +6,9 @@ import java.util.List;
 
 import org.junit.Test;
 
+import dto.Address;
 import dto.Person;
+import dto.Student;
 import entity.PersonEntity;
 
 public class BasicMapperTest {
@@ -34,5 +36,25 @@ public class BasicMapperTest {
         PersonEntity entity = BasicMapper.MAPPER.toPersonEntity(dto);
         assertThat(entity.getName()).isNull();
         assertThat(entity.getAge()).isEqualTo(23);
+    }
+
+    @Test
+    public void severalSource() {
+        Person person = new Person("マイケル", 23);
+        Address address = new Address("ノースカロライナ州", "12345");
+        Student student = BasicMapper.MAPPER.personAndAddressToStudent(person, address);
+        assertThat(student.getName()).isEqualTo("マイケル");
+        assertThat(student.getAge()).isEqualTo(23);
+        assertThat(student.getAddress()).isEqualTo("ノースカロライナ州");
+    }
+
+    @Test
+    public void update() {
+        Person person = new Person("マイケル", 23);
+        Student student = new Student("カリー", 30, "カリフォルニア州");
+        BasicMapper.MAPPER.updateStudent(person, student);
+        assertThat(student.getName()).isEqualTo("マイケル");
+        assertThat(student.getAge()).isEqualTo(23);
+        assertThat(student.getAddress()).isEqualTo("カリフォルニア州");
     }
 }
