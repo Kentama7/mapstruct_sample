@@ -18,7 +18,7 @@ public interface ContextMapper {
 
     PersonEntity toPersonEntity(Person person, @Context Locale locale);
 
-    default String translate(String name, @Context Locale locale) {
-        return Locale.JAPAN.equals(locale) ? "日本語" : "ENGLISH";
+    default String uppercase(String name, @Context Locale locale) {
+        return name.toUpperCase(locale);
     }
 }
